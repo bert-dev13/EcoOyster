@@ -1,4 +1,6 @@
-# Oyster Production Prediction System
+# EcoOyster
+
+## Oyster Production Prediction System
 
 A web-based system that predicts oyster production based on environmental and farming factors and provides AI-powered recommendations to maximize yield.
 
@@ -77,4 +79,3 @@ EcoOyster/
 - The system uses the same UI/UX design as the EcoDengue project
 - AI recommendations are generated using DeepSeek-R1-Distill-Llama-70B-free model
 - Production values are displayed in metric tons
-
