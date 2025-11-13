@@ -241,7 +241,7 @@ body::before {
 /* Header Styles */
 .header {
     text-align: center;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-md);
     padding: 0;
     animation: slideDown 0.6s ease-out 0.2s both;
 }
@@ -249,7 +249,7 @@ body::before {
 .header-container {
     background: var(--surface);
     border-radius: var(--radius-lg);
-    padding: calc(var(--space-lg) * 1.5) calc(var(--space-xl) * 1.5);
+    padding: var(--space-md) var(--space-lg);
     border: 2px solid var(--border);
     border-top: 3px solid var(--primary);
     box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
@@ -257,7 +257,6 @@ body::before {
                headerContainerPulse 4s ease-in-out 1.1s infinite;
     position: relative;
     box-sizing: border-box;
-    width: 100%;
 }
 
 /* Top animated border line */
@@ -307,29 +306,29 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
     position: relative;
     z-index: 1;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .title-icon-left,
 .title-icon-right {
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: inline-block;
     animation: oysterFloat 3s ease-in-out infinite;
     filter: drop-shadow(0 2px 6px rgba(8, 145, 178, 0.4));
     line-height: 1;
+    flex-shrink: 0;
 }
 
 .title-icon-left {
     animation-delay: 0s;
-    margin-right: var(--space-xs);
 }
 
 .title-icon-right {
     animation-delay: 1.5s;
-    margin-left: var(--space-xs);
 }
 
 @keyframes oysterFloat {
@@ -352,12 +351,12 @@ body::before {
 }
 
 .title {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
     font-weight: 700;
     font-family: var(--font-tech);
-    color: var(--text-primary);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    color: var(--primary);
+    letter-spacing: 0.05em;
+    text-transform: none;
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -365,11 +364,28 @@ body::before {
     animation: titleFadeIn 0.8s ease-out 0.5s both;
     position: relative;
     text-shadow: 0 0 30px rgba(8, 145, 178, 0.3);
-    letter-spacing: 0.15em;
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+    margin: 0;
+    line-height: 1.3;
+    min-width: 0;
+}
+
+/* Fallback for browsers that don't support background-clip */
+@supports not (-webkit-background-clip: text) {
+    .title {
+        color: var(--primary);
+        background: none;
+        -webkit-text-fill-color: var(--primary);
+    }
 }
 
 .title-border-line {
-    width: 100px;
+    width: 80px;
     height: 2px;
     background: linear-gradient(90deg, 
         transparent 0%,
@@ -377,7 +393,7 @@ body::before {
         var(--primary) 50%,
         var(--border) 80%,
         transparent 100%);
-    margin: 0 auto var(--space-md);
+    margin: 0 auto var(--space-sm);
     position: relative;
     z-index: 1;
     animation: lineExpand 1s ease-out 0.7s both;
@@ -412,7 +428,7 @@ body::before {
         opacity: 0;
     }
     to {
-        width: 100px;
+        width: 80px;
         opacity: 1;
     }
 }
@@ -453,7 +469,6 @@ body::before {
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
-    width: 100%;
     box-sizing: border-box;
 }
 
@@ -461,11 +476,10 @@ body::before {
 .input-section {
     background: var(--surface);
     border-radius: var(--radius-lg);
-    padding: calc(var(--space-xl) * 1.5);
+    padding: var(--space-xl);
     box-shadow: 0 8px 32px rgba(8, 145, 178, 0.15);
     animation: slideUp 0.6s ease-out 0.4s both;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
     box-sizing: border-box;
 }
 
@@ -831,13 +845,12 @@ select.form-input:required:invalid:hover {
 .results-section {
     background: var(--surface);
     border-radius: var(--radius-lg);
-    padding: calc(var(--space-xl) * 1.5);
+    padding: var(--space-xl);
     box-shadow: 0 12px 48px rgba(8, 145, 178, 0.2);
     animation: slideUpScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     border: 2px solid var(--border);
     border-top: 3px solid var(--secondary);
     position: relative;
-    width: 100%;
     box-sizing: border-box;
 }
 
@@ -1455,7 +1468,7 @@ select.form-input:required:invalid:hover {
 .recommendations-section {
     margin-top: var(--space-xl);
     margin-bottom: var(--space-xl);
-    padding: calc(var(--space-xl) * 1.2);
+    padding: var(--space-xl);
     background: linear-gradient(135deg, rgba(8, 145, 178, 0.06) 0%, rgba(20, 184, 166, 0.03) 100%);
     border-radius: var(--radius-lg);
     border: 2px solid rgba(8, 145, 178, 0.2);
@@ -1463,7 +1476,6 @@ select.form-input:required:invalid:hover {
     animation: slideUpScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     animation-delay: 1.2s;
     position: relative;
-    width: 100%;
     box-sizing: border-box;
     overflow: hidden;
 }
@@ -1524,10 +1536,13 @@ select.form-input:required:invalid:hover {
     text-align: center;
     width: 100%;
     max-width: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: auto;
     padding: 0 var(--space-sm);
     box-sizing: border-box;
+    line-height: 1.3;
 }
 
 .recommendations-subtitle {
@@ -1539,10 +1554,13 @@ select.form-input:required:invalid:hover {
     text-align: center;
     width: 100%;
     max-width: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: auto;
     padding: 0 var(--space-sm);
     box-sizing: border-box;
+    line-height: 1.4;
 }
 
 .recommendations-content {
@@ -2084,22 +2102,78 @@ select.form-input:required:invalid:hover {
     }
     
     .header-container {
-        padding: var(--space-md) var(--space-sm);
+        padding: var(--space-sm) var(--space-sm);
     }
     
     .title {
-        font-size: 1.25rem;
-        letter-spacing: 0.05em;
+        font-size: 0.9375rem;
+        letter-spacing: 0.02em;
+        white-space: normal;
+        overflow: visible;
+        word-wrap: normal;
+        overflow-wrap: normal;
+        line-height: 1.4;
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+    
+    .title-wrapper {
+        flex-wrap: wrap;
+        gap: var(--space-xs);
     }
     
     .title-icon-left,
     .title-icon-right {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     
     .subtitle,
     .subtitle-tagalog {
         font-size: 0.75rem;
+    }
+    
+    .results-header {
+        margin-bottom: var(--space-md);
+        padding-bottom: var(--space-sm);
+    }
+    
+    .results-header-icon {
+        font-size: 2rem;
+        margin-bottom: var(--space-xs);
+    }
+    
+    .results-title {
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+    }
+    
+    .results-subtitle {
+        font-size: 0.75rem;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .results-header-line {
+        width: 60px;
+    }
+    
+    .recommendations-header {
+        margin-bottom: var(--space-md);
+    }
+    
+    .recommendations-icon {
+        font-size: 1.75rem;
+        margin-bottom: var(--space-xs);
+    }
+    
+    .recommendations-title {
+        font-size: 0.875rem;
+        letter-spacing: 0.05em;
+        padding: 0 var(--space-xs);
+    }
+    
+    .recommendations-subtitle {
+        font-size: 0.6875rem;
+        padding: 0 var(--space-xs);
     }
     
     .input-section,
@@ -2234,21 +2308,77 @@ select.form-input:required:invalid:hover {
     }
     
     .header-container {
-        padding: var(--space-lg) var(--space-md);
+        padding: var(--space-sm) var(--space-md);
     }
     
     .title {
-        font-size: 1.5rem;
+        font-size: 1rem;
+        white-space: normal;
+        overflow: visible;
+        word-wrap: normal;
+        overflow-wrap: normal;
+        line-height: 1.3;
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+    
+    .title-wrapper {
+        flex-wrap: wrap;
+        gap: var(--space-xs);
     }
     
     .title-icon-left,
     .title-icon-right {
-        font-size: 1.75rem;
+        font-size: 1.375rem;
     }
     
     .subtitle,
     .subtitle-tagalog {
         font-size: 0.8125rem;
+    }
+    
+    .results-header {
+        margin-bottom: var(--space-lg);
+        padding-bottom: var(--space-md);
+    }
+    
+    .results-header-icon {
+        font-size: 2.25rem;
+        margin-bottom: var(--space-xs);
+    }
+    
+    .results-title {
+        font-size: 1.125rem;
+        letter-spacing: 0.06em;
+    }
+    
+    .results-subtitle {
+        font-size: 0.8125rem;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .results-header-line {
+        width: 70px;
+    }
+    
+    .recommendations-header {
+        margin-bottom: var(--space-md);
+    }
+    
+    .recommendations-icon {
+        font-size: 2rem;
+        margin-bottom: var(--space-xs);
+    }
+    
+    .recommendations-title {
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+        padding: 0 var(--space-xs);
+    }
+    
+    .recommendations-subtitle {
+        font-size: 0.75rem;
+        padding: 0 var(--space-xs);
     }
     
     .input-section,
@@ -2382,7 +2512,6 @@ select.form-input:required:invalid:hover {
     .results-section,
     .recommendations-section {
         padding: var(--space-md);
-        width: 100%;
     }
     
     .container {
@@ -2390,7 +2519,47 @@ select.form-input:required:invalid:hover {
     }
     
     .title {
-        font-size: 1.75rem;
+        font-size: 1.125rem;
+        white-space: normal;
+        overflow: visible;
+        line-height: 1.3;
+    }
+    
+    .title-wrapper {
+        flex-wrap: wrap;
+    }
+    
+    .results-header {
+        margin-bottom: var(--space-lg);
+        padding-bottom: var(--space-md);
+    }
+    
+    .results-header-icon {
+        font-size: 2.5rem;
+        margin-bottom: var(--space-xs);
+    }
+    
+    .results-title {
+        font-size: 1.25rem;
+        letter-spacing: 0.08em;
+    }
+    
+    .results-subtitle {
+        font-size: 0.8125rem;
+        margin-bottom: var(--space-sm);
+    }
+    
+    .results-header-line {
+        width: 75px;
+    }
+    
+    .recommendations-header {
+        margin-bottom: var(--space-md);
+    }
+    
+    .recommendations-icon {
+        font-size: 2.5rem;
+        margin-bottom: var(--space-xs);
     }
     
     .recommendations-title {
@@ -2463,16 +2632,16 @@ select.form-input:required:invalid:hover {
     }
     
     .header-container {
-        padding: calc(var(--space-lg) * 1.2) calc(var(--space-xl) * 1.2);
+        padding: var(--space-md) var(--space-lg);
     }
     
     .title {
-        font-size: 2rem;
+        font-size: 1.375rem;
     }
     
     .title-icon-left,
     .title-icon-right {
-        font-size: 2.25rem;
+        font-size: 1.5rem;
     }
     
     .subtitle,
@@ -2483,8 +2652,7 @@ select.form-input:required:invalid:hover {
     .input-section,
     .results-section,
     .recommendations-section {
-        padding: calc(var(--space-xl) * 1.2);
-        width: 100%;
+        padding: var(--space-xl);
     }
     
     .form-group {
@@ -2523,8 +2691,35 @@ select.form-input:required:invalid:hover {
         font-size: 2.5rem;
     }
     
+    .results-header {
+        margin-bottom: var(--space-xl);
+        padding-bottom: var(--space-md);
+    }
+    
+    .results-header-icon {
+        font-size: 2.75rem;
+    }
+    
+    .results-title {
+        font-size: 1.375rem;
+        letter-spacing: 0.09em;
+    }
+    
+    .results-subtitle {
+        font-size: 0.875rem;
+    }
+    
+    .results-header-line {
+        width: 80px;
+    }
+    
     .recommendations-header {
         padding: 0;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .recommendations-icon {
+        font-size: 2.75rem;
     }
     
     .recommendations-title {
@@ -2591,23 +2786,22 @@ select.form-input:required:invalid:hover {
     }
     
     .header-container {
-        padding: calc(var(--space-lg) * 1.5) calc(var(--space-xl) * 1.5);
+        padding: var(--space-md) var(--space-lg);
     }
     
     .title {
-        font-size: 2.25rem;
+        font-size: 1.5rem;
     }
     
     .title-icon-left,
     .title-icon-right {
-        font-size: 2.5rem;
+        font-size: 1.625rem;
     }
     
     .input-section,
     .results-section,
     .recommendations-section {
-        padding: calc(var(--space-xl) * 1.5) 4rem;
-        width: 100%;
+        padding: var(--space-xl);
     }
     
     .form-group {
@@ -2641,8 +2835,35 @@ select.form-input:required:invalid:hover {
         font-size: 2.75rem;
     }
     
+    .results-header {
+        margin-bottom: var(--space-xl);
+        padding-bottom: var(--space-lg);
+    }
+    
+    .results-header-icon {
+        font-size: 3rem;
+    }
+    
+    .results-title {
+        font-size: 1.5rem;
+        letter-spacing: 0.1em;
+    }
+    
+    .results-subtitle {
+        font-size: 0.875rem;
+    }
+    
+    .results-header-line {
+        width: 80px;
+    }
+    
     .recommendations-header {
         padding: 0;
+        margin-bottom: var(--space-lg);
+    }
+    
+    .recommendations-icon {
+        font-size: 3rem;
     }
     
     .recommendations-title {
@@ -2699,22 +2920,22 @@ select.form-input:required:invalid:hover {
     }
     
     .header-container {
-        padding: calc(var(--space-xl) * 1.5) calc(var(--space-xl) * 2);
+        padding: var(--space-md) var(--space-lg);
     }
     
     .title {
-        font-size: 2.5rem;
+        font-size: 1.625rem;
     }
     
     .title-icon-left,
     .title-icon-right {
-        font-size: 2.75rem;
+        font-size: 1.75rem;
     }
     
     .input-section,
     .results-section,
     .recommendations-section {
-        padding: calc(var(--space-xl) * 1.75) 5rem;
+        padding: var(--space-xl);
     }
     
     .results-grid {
@@ -2739,8 +2960,42 @@ select.form-input:required:invalid:hover {
         font-size: 3rem;
     }
     
+    .results-header {
+        margin-bottom: var(--space-xl);
+        padding-bottom: var(--space-lg);
+    }
+    
+    .results-header-icon {
+        font-size: 3.25rem;
+    }
+    
+    .results-title {
+        font-size: 1.625rem;
+        letter-spacing: 0.1em;
+    }
+    
+    .results-subtitle {
+        font-size: 0.9375rem;
+    }
+    
+    .results-header-line {
+        width: 90px;
+    }
+    
+    .recommendations-header {
+        margin-bottom: var(--space-lg);
+    }
+    
+    .recommendations-icon {
+        font-size: 3.25rem;
+    }
+    
     .recommendations-title {
         font-size: 1.75rem;
+    }
+    
+    .recommendations-subtitle {
+        font-size: 0.9375rem;
     }
     
     .recommendations-grid {
@@ -2903,12 +3158,17 @@ html, body {
 }
 
 /* Ensure all containers respect viewport width */
-.container,
-.app-wrapper,
+.container {
+    box-sizing: border-box;
+}
+
+.app-wrapper {
+    box-sizing: border-box;
+}
+
 .input-section,
 .results-section,
 .recommendations-section {
-    max-width: 100%;
     box-sizing: border-box;
 }
 
