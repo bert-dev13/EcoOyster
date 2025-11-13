@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyster Production Prediction System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="top-navbar">
+        <div class="top-navbar-container">
+            <div class="school-logo-wrapper">
+                <img src="assets/images/logo.png" alt="Logo" class="school-logo">
+                <span class="school-name">Licerio Antiporda Sr. National High School</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-wrapper">
+        <div class="container">
+            <!-- Header Section -->
+            <header class="header">
+                <div class="header-container">
+                    <div class="title-wrapper">
+                        <span class="title-icon-left">🦪</span>
+                        <h1 class="title">Oyster Production Prediction System</h1>
+                        <span class="title-icon-right">🦪</span>
+                    </div>
+                    <div class="title-border-line"></div>
+                    <p class="subtitle">Predicting Oyster Production for Aquaculture</p>
+                    <p class="subtitle-tagalog">Pagtataya ng Produksyon ng Talaba para sa Aquaculture</p>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Input Section -->
+                <section class="input-section">
+                    <form id="predictionForm" class="prediction-form">
+                        <div class="form-group">
+                            <label for="salinity" class="form-label">
+                                <span class="label-primary">Salinity (ppt)</span>
+                                <span class="label-secondary">Water salinity</span>
+                                <span class="label-tagalog">Antas ng alat ng tubig</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="salinity" 
+                                name="salinity" 
+                                class="form-input"
+                                placeholder="0"
+                                step="0.01"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="temperature" class="form-label">
+                                <span class="label-primary">Temperature (°C)</span>
+                                <span class="label-secondary">Water temperature</span>
+                                <span class="label-tagalog">Temperatura ng tubig</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="temperature" 
+                                name="temperature" 
+                                class="form-input"
+                                placeholder="0"
+                                step="0.01"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="storms" class="form-label">
+                                <span class="label-primary">Number of Storms</span>
+                                <span class="label-secondary">Total storm occurrences</span>
+                                <span class="label-tagalog">Bilang ng mga bagyo</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="storms" 
+                                name="storms" 
+                                class="form-input"
+                                placeholder="0"
+                                step="1"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="severeEvents" class="form-label">
+                                <span class="label-primary">Number of Severe Events</span>
+                                <span class="label-secondary">Total severe weather events</span>
+                                <span class="label-tagalog">Bilang ng matinding kaganapan sa panahon</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="severeEvents" 
+                                name="severeEvents" 
+                                class="form-input"
+                                placeholder="0"
+                                step="1"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="typhoon" class="form-label">
+                                <span class="label-primary">Number of Typhoons</span>
+                                <span class="label-secondary">Typhoon occurrences/intensity</span>
+                                <span class="label-tagalog">Bilang ng mga bagyo sa panahon ng produksyon</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="typhoon" 
+                                name="typhoon" 
+                                class="form-input"
+                                placeholder="0"
+                                step="1"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="flood" class="form-label">
+                                <span class="label-primary">Number of Floods</span>
+                                <span class="label-secondary">Flood occurrences/intensity</span>
+                                <span class="label-tagalog">Bilang ng mga baha sa panahon ng produksyon</span>
+                            </label>
+                            <input 
+                                type="number" 
+                                id="flood" 
+                                name="flood" 
+                                class="form-input"
+                                placeholder="0"
+                                step="1"
+                                min="0"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="farmingTechnique" class="form-label">
+                                <span class="label-primary">Farming Technique</span>
+                                <span class="label-secondary">Type of oyster farming method</span>
+                                <span class="label-tagalog">Uri ng paraan ng pag-aalaga ng talaba</span>
+                            </label>
+                            <select 
+                                id="farmingTechnique" 
+                                name="farmingTechnique" 
+                                class="form-input"
+                                required
+                            >
+                                <option value="">Select farming technique... / Pumili ng paraan ng pagsasaka...</option>
+                                <option value="1">Raft method / Paraan ng Raft</option>
+                                <option value="2">Stake method / Paraan ng Stake</option>
+                                <option value="3">Both Raft and Stake / Parehong Raft at Stake</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="predict-button" id="predictBtn">
+                            <span>Compute Oyster Production</span>
+                            <span class="button-tagalog">Kalkulahin ang Produksyon ng Talaba</span>
+                        </button>
+                    </form>
+                </section>
+
+                <!-- Results Section -->
+                <section class="results-section" id="resultsSection" style="display: none;">
+                    <div class="results-header">
+                        <div class="results-header-icon">📊</div>
+                        <h2 class="results-title">Prediction Results</h2>
+                        <p class="results-subtitle">Mga Resulta ng Hula</p>
+                        <div class="results-header-line"></div>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-card highlight">
+                            <div class="result-card-icon">🦪</div>
+                            <div class="result-label">Predicted Oyster Production</div>
+                            <div class="result-label-secondary">Tinatayang Produksyon ng Oyster</div>
+                            <div class="result-value-wrapper">
+                                <div class="result-value highlight-value" id="productionValue">-</div>
+                                <div class="result-value-original" id="productionValueOriginal" style="display: none;">
+                                    Original: <span id="productionValueOriginalValue">-</span>
+                                </div>
+                            </div>
+                            <div class="result-unit">metric tons / metriko tonelada</div>
+                        </div>
+                        <div class="result-card highlight-secondary">
+                            <div class="result-card-icon">🌾</div>
+                            <div class="result-label">Farming Technique</div>
+                            <div class="result-label-secondary">Paraan ng Pagsasaka</div>
+                            <div class="result-value-wrapper">
+                                <div class="result-value highlight-value-secondary" id="farmingTechniqueValue">-</div>
+                            </div>
+                            <div class="result-unit">method / paraan</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Buttons -->
+                    <div class="export-buttons-wrapper" id="exportButtonsWrapper" style="display: none;">
+                        <button type="button" class="export-button pdf-button" id="downloadPdfBtn">
+                            <span class="export-icon">📄</span>
+                            <span>Download PDF</span>
+                        </button>
+                        <button type="button" class="export-button clipboard-button" id="copyClipboardBtn">
+                            <span class="export-icon">📋</span>
+                            <span>Copy to Clipboard</span>
+                        </button>
+                    </div>
+                    
+                    <div class="production-display" id="productionDisplay" style="display: none;">
+                        <p class="production-text">
+                            <strong>Predicted Oyster Production:</strong> 
+                            <span id="productionDisplayValue">-</span> metric tons
+                        </p>
+                    </div>
+
+                    <!-- AI Recommendations Section -->
+                    <div class="recommendations-section" id="recommendationsSection" style="display: none;">
+                        <div class="recommendations-header">
+                            <div class="recommendations-icon">💡</div>
+                            <h3 class="recommendations-title">AI-Powered Oyster Production Recommendations</h3>
+                            <p class="recommendations-subtitle">Mga Rekomendasyon ng AI para sa Pagpapataas ng Produksyon ng Talaba</p>
+                        </div>
+                        <div class="recommendations-content">
+                            <div class="recommendations-loading" id="recommendationsLoading" style="display: none;">
+                                <div class="loading-spinner"></div>
+                                <p>Analyzing and generating recommendations...</p>
+                                <p class="loading-tagalog">Sinusuri at ginagawa ang mga rekomendasyon...</p>
+                            </div>
+                            <div class="recommendations-text" id="recommendationsText"></div>
+                            <div class="recommendations-footer" id="recommendationsFooter" style="display: none;">
+                                <p>🦪 These recommendations are AI-generated using DeepSeek analysis and may vary based on local conditions and environmental factors.</p>
+                                <p class="footer-tagalog">🦪 Ang mga rekomendasyong ito ay ginawa ng AI gamit ang DeepSeek analysis at maaaring mag-iba batay sa lokal na kondisyon at mga salik sa kapaligiran.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="reset-button" id="resetBtn">
+                        <span class="reset-icon">🔄</span>
+                        <span>Calculate New Prediction</span>
+                        <span class="button-tagalog">Kalkulahin ang Bagong Hula</span>
+                    </button>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Load jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Verify jsPDF is loaded and log for debugging
+        (function() {
+            function checkJsPDF() {
+                if (window.jsPDF && window.jsPDF.jsPDF) {
+                    console.log('✓ jsPDF library loaded successfully (window.jsPDF.jsPDF)');
+                    return true;
+                } else if (typeof window.jsPDF === 'function') {
+                    console.log('✓ jsPDF library loaded successfully (window.jsPDF function)');
+                    return true;
+                } else {
+                    console.warn('⚠ jsPDF library not found. Available:', Object.keys(window).filter(k => k.toLowerCase().includes('pdf')));
+                    return false;
+                }
+            }
+            
+            // Check immediately
+            if (!checkJsPDF()) {
+                // Check again after a short delay in case it's still loading
+                setTimeout(checkJsPDF, 100);
+            }
+        })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
+
