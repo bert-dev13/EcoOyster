@@ -249,7 +249,7 @@ body::before {
 .header-container {
     background: var(--surface);
     border-radius: var(--radius-lg);
-    padding: var(--space-md) var(--space-lg);
+    padding: calc(var(--space-lg) * 1.5) calc(var(--space-xl) * 1.5);
     border: 2px solid var(--border);
     border-top: 3px solid var(--primary);
     box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
@@ -257,6 +257,7 @@ body::before {
                headerContainerPulse 4s ease-in-out 1.1s infinite;
     position: relative;
     box-sizing: border-box;
+    width: 100%;
 }
 
 /* Top animated border line */
@@ -306,11 +307,9 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
     position: relative;
     z-index: 1;
-    flex-wrap: wrap;
-    width: 100%;
 }
 
 .title-icon-left,
@@ -320,15 +319,16 @@ body::before {
     animation: oysterFloat 3s ease-in-out infinite;
     filter: drop-shadow(0 2px 6px rgba(8, 145, 178, 0.4));
     line-height: 1;
-    flex-shrink: 0;
 }
 
 .title-icon-left {
     animation-delay: 0s;
+    margin-right: var(--space-xs);
 }
 
 .title-icon-right {
     animation-delay: 1.5s;
+    margin-left: var(--space-xs);
 }
 
 @keyframes oysterFloat {
@@ -364,15 +364,6 @@ body::before {
     animation: titleFadeIn 0.8s ease-out 0.5s both;
     position: relative;
     text-shadow: 0 0 30px rgba(8, 145, 178, 0.3);
-    text-align: center;
-    white-space: normal;
-    overflow: visible;
-    word-wrap: normal;
-    overflow-wrap: normal;
-    word-break: normal;
-    margin: 0;
-    line-height: 1.3;
-    min-width: 0;
 }
 
 /* Fallback for browsers that don't support background-clip */
@@ -2101,25 +2092,9 @@ select.form-input:required:invalid:hover {
         padding-top: calc(75px + var(--space-sm));
     }
     
-    .header-container {
-        padding: var(--space-sm) var(--space-sm);
-    }
-    
     .title {
         font-size: 0.9375rem;
         letter-spacing: 0.02em;
-        white-space: normal;
-        overflow: visible;
-        word-wrap: normal;
-        overflow-wrap: normal;
-        line-height: 1.4;
-        flex: 1 1 100%;
-        min-width: 0;
-    }
-    
-    .title-wrapper {
-        flex-wrap: wrap;
-        gap: var(--space-xs);
     }
     
     .title-icon-left,
@@ -2307,24 +2282,8 @@ select.form-input:required:invalid:hover {
         padding-top: calc(90px + var(--space-lg));
     }
     
-    .header-container {
-        padding: var(--space-sm) var(--space-md);
-    }
-    
     .title {
         font-size: 1rem;
-        white-space: normal;
-        overflow: visible;
-        word-wrap: normal;
-        overflow-wrap: normal;
-        line-height: 1.3;
-        flex: 1 1 100%;
-        min-width: 0;
-    }
-    
-    .title-wrapper {
-        flex-wrap: wrap;
-        gap: var(--space-xs);
     }
     
     .title-icon-left,
@@ -2520,13 +2479,6 @@ select.form-input:required:invalid:hover {
     
     .title {
         font-size: 1.125rem;
-        white-space: normal;
-        overflow: visible;
-        line-height: 1.3;
-    }
-    
-    .title-wrapper {
-        flex-wrap: wrap;
     }
     
     .results-header {
@@ -2629,10 +2581,6 @@ select.form-input:required:invalid:hover {
     .container {
         max-width: 900px;
         padding: 0 var(--space-md);
-    }
-    
-    .header-container {
-        padding: var(--space-md) var(--space-lg);
     }
     
     .title {
@@ -2785,10 +2733,6 @@ select.form-input:required:invalid:hover {
         padding-top: calc(110px + var(--space-xl));
     }
     
-    .header-container {
-        padding: var(--space-md) var(--space-lg);
-    }
-    
     .title {
         font-size: 1.5rem;
     }
@@ -2917,10 +2861,6 @@ select.form-input:required:invalid:hover {
     .app-wrapper {
         padding: var(--space-xl) var(--space-xl);
         padding-top: calc(110px + var(--space-xl));
-    }
-    
-    .header-container {
-        padding: var(--space-md) var(--space-lg);
     }
     
     .title {
@@ -3191,10 +3131,6 @@ table {
 @media (max-width: 767px) and (orientation: landscape) {
     .app-wrapper {
         padding-top: calc(80px + var(--space-sm));
-    }
-    
-    .header-container {
-        padding: var(--space-md) var(--space-lg);
     }
     
     .title {
