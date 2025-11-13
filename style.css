@@ -185,8 +185,12 @@ body::before {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    white-space: nowrap;
+    white-space: normal;
     text-shadow: 0 0 20px rgba(8, 145, 178, 0.2);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    line-height: 1.3;
 }
 
 /* Animated border line under navbar */
@@ -303,6 +307,7 @@ body::before {
     margin-bottom: var(--space-md);
     position: relative;
     z-index: 1;
+    flex-wrap: wrap;
 }
 
 .title-icon-left,
@@ -2030,6 +2035,195 @@ select.form-input:required:invalid:hover {
 
 /* Responsive Design */
 
+/* Extra Small Mobile (320px - 360px) */
+@media (max-width: 360px) {
+    .top-navbar-container {
+        padding: var(--space-xs) var(--space-xs);
+    }
+    
+    .school-logo {
+        height: 40px;
+    }
+    
+    .school-name {
+        font-size: 0.875rem;
+        line-height: 1.2;
+    }
+    
+    .app-wrapper {
+        padding: var(--space-xs);
+        padding-top: calc(75px + var(--space-sm));
+    }
+    
+    .header-container {
+        padding: var(--space-md) var(--space-sm);
+    }
+    
+    .title {
+        font-size: 1.25rem;
+        letter-spacing: 0.05em;
+    }
+    
+    .title-icon-left,
+    .title-icon-right {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle,
+    .subtitle-tagalog {
+        font-size: 0.75rem;
+    }
+    
+    .input-section,
+    .results-section,
+    .recommendations-section {
+        padding: var(--space-sm);
+    }
+    
+    .form-group {
+        padding: var(--space-sm);
+    }
+    
+    .form-input {
+        padding: 0.75rem 0.875rem;
+        font-size: 0.9375rem;
+    }
+    
+    .label-primary {
+        font-size: 0.875rem;
+    }
+    
+    .label-secondary,
+    .label-tagalog {
+        font-size: 0.75rem;
+    }
+    
+    .predict-button,
+    .reset-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .result-value {
+        font-size: 1.5rem;
+    }
+    
+    .result-value.highlight-value {
+        font-size: 1.75rem;
+    }
+    
+    .result-card {
+        padding: var(--space-sm);
+    }
+    
+    .recommendations-title {
+        font-size: 1rem;
+        letter-spacing: 0.03em;
+    }
+    
+    .recommendations-subtitle {
+        font-size: 0.6875rem;
+    }
+    
+    .recommendations-icon {
+        font-size: 2rem;
+    }
+}
+
+/* Small Mobile (361px - 480px) */
+@media (min-width: 361px) and (max-width: 480px) {
+    .top-navbar-container {
+        padding: var(--space-sm) var(--space-sm);
+    }
+    
+    .school-logo {
+        height: 50px;
+    }
+    
+    .school-name {
+        font-size: 1rem;
+        line-height: 1.3;
+    }
+    
+    .app-wrapper {
+        padding: var(--space-sm);
+        padding-top: calc(90px + var(--space-lg));
+    }
+    
+    .header-container {
+        padding: var(--space-lg) var(--space-md);
+    }
+    
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .title-icon-left,
+    .title-icon-right {
+        font-size: 1.75rem;
+    }
+    
+    .subtitle,
+    .subtitle-tagalog {
+        font-size: 0.8125rem;
+    }
+    
+    .input-section,
+    .results-section,
+    .recommendations-section {
+        padding: var(--space-md);
+    }
+    
+    .form-group {
+        padding: var(--space-md);
+    }
+    
+    .form-input {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .label-primary {
+        font-size: 0.9375rem;
+    }
+    
+    .label-secondary,
+    .label-tagalog {
+        font-size: 0.8125rem;
+    }
+    
+    .predict-button,
+    .reset-button {
+        padding: 0.875rem 1.25rem;
+        font-size: 0.875rem;
+    }
+    
+    .result-value {
+        font-size: 1.75rem;
+    }
+    
+    .result-value.highlight-value {
+        font-size: 2rem;
+    }
+    
+    .result-card {
+        padding: var(--space-md);
+    }
+    
+    .recommendations-title {
+        font-size: 1.1rem;
+        letter-spacing: 0.05em;
+    }
+    
+    .recommendations-subtitle {
+        font-size: 0.75rem;
+    }
+    
+    .recommendations-icon {
+        font-size: 2.5rem;
+    }
+}
+
 /* Medium screens (between mobile and tablet) */
 @media (min-width: 481px) and (max-width: 767px) {
     .top-navbar-container {
@@ -2059,6 +2253,10 @@ select.form-input:required:invalid:hover {
         padding: 0 var(--space-sm);
     }
     
+    .title {
+        font-size: 1.75rem;
+    }
+    
     .recommendations-title {
         font-size: 1.2rem;
         letter-spacing: 0.08em;
@@ -2067,10 +2265,23 @@ select.form-input:required:invalid:hover {
     .recommendations-subtitle {
         font-size: 0.8125rem;
     }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .result-value {
+        font-size: 2rem;
+    }
+    
+    .result-value.highlight-value {
+        font-size: 2.25rem;
+    }
 }
 
-/* Tablet */
-@media (min-width: 768px) {
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
     .top-navbar-container {
         padding: var(--space-md) var(--space-xl);
     }
@@ -2084,18 +2295,30 @@ select.form-input:required:invalid:hover {
     }
     
     .app-wrapper {
-        padding-top: calc(105px + var(--space-md));
+        padding: var(--space-lg);
+        padding-top: calc(105px + var(--space-lg));
     }
     
     .container {
         max-width: 900px;
+        padding: 0 var(--space-md);
+    }
+    
+    .header-container {
+        padding: calc(var(--space-lg) * 1.2) calc(var(--space-xl) * 1.2);
     }
     
     .title {
         font-size: 2rem;
     }
     
-    .subtitle {
+    .title-icon-left,
+    .title-icon-right {
+        font-size: 2.25rem;
+    }
+    
+    .subtitle,
+    .subtitle-tagalog {
         font-size: 0.9375rem;
     }
     
@@ -2106,8 +2329,13 @@ select.form-input:required:invalid:hover {
         width: 100%;
     }
     
-    .container {
-        padding: 0 var(--space-md);
+    .form-group {
+        padding: calc(var(--space-md) * 1.2);
+    }
+    
+    .form-input {
+        padding: 1rem 1.25rem;
+        font-size: 1.0625rem;
     }
     
     .results-grid {
@@ -2130,6 +2358,10 @@ select.form-input:required:invalid:hover {
     }
     
     .result-value.highlight-value {
+        font-size: 2.5rem;
+    }
+    
+    .result-value.highlight-value-secondary {
         font-size: 2.5rem;
     }
     
@@ -2158,12 +2390,33 @@ select.form-input:required:invalid:hover {
     .category-title {
         font-size: 1.15rem;
     }
+    
+    .recommendation-item {
+        font-size: 0.9375rem;
+        padding: var(--space-sm) var(--space-md);
+        padding-left: calc(var(--space-md) + 1.5rem);
+    }
+    
+    .export-buttons-wrapper {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .export-button {
+        flex: 0 1 auto;
+        min-width: 180px;
+    }
 }
 
-/* Desktop */
+/* Desktop (1024px - 1439px) */
 @media (min-width: 1024px) {
     .container {
         max-width: 1000px;
+        padding: 0 var(--space-lg);
+    }
+    
+    .top-navbar-container {
+        padding: var(--space-md) var(--space-xl);
     }
     
     .school-logo {
@@ -2179,6 +2432,19 @@ select.form-input:required:invalid:hover {
         padding-top: calc(110px + var(--space-xl));
     }
     
+    .header-container {
+        padding: calc(var(--space-lg) * 1.5) calc(var(--space-xl) * 1.5);
+    }
+    
+    .title {
+        font-size: 2.25rem;
+    }
+    
+    .title-icon-left,
+    .title-icon-right {
+        font-size: 2.5rem;
+    }
+    
     .input-section,
     .results-section,
     .recommendations-section {
@@ -2186,12 +2452,35 @@ select.form-input:required:invalid:hover {
         width: 100%;
     }
     
-    .container {
-        padding: 0 var(--space-lg);
+    .form-group {
+        padding: calc(var(--space-md) * 1.3);
+    }
+    
+    .form-input {
+        padding: 1rem 1.25rem;
+        font-size: 1.0625rem;
     }
     
     .results-grid {
         gap: var(--space-xl);
+    }
+    
+    .result-card.highlight,
+    .result-card.highlight-secondary,
+    .result-card.risk-card {
+        min-height: 300px;
+    }
+    
+    .result-value {
+        font-size: 2.5rem;
+    }
+    
+    .result-value.highlight-value {
+        font-size: 2.75rem;
+    }
+    
+    .result-value.highlight-value-secondary {
+        font-size: 2.75rem;
     }
     
     .recommendations-header {
@@ -2225,214 +2514,124 @@ select.form-input:required:invalid:hover {
         padding: var(--space-md) var(--space-lg);
         padding-left: calc(var(--space-lg) + 1.5rem);
     }
+    
+    .export-buttons-wrapper {
+        flex-direction: row;
+        justify-content: center;
+        gap: var(--space-lg);
+    }
+    
+    .export-button {
+        flex: 0 1 auto;
+        min-width: 200px;
+        padding: 1rem 2rem;
+    }
 }
 
-/* Large Desktop */
+/* Large Desktop (1440px+) */
 @media (min-width: 1440px) {
     .container {
         max-width: 1100px;
-    }
-}
-
-/* Mobile Optimizations */
-@media (max-width: 480px) {
-    .top-navbar-container {
-        padding: var(--space-sm) var(--space-sm);
-        justify-content: center;
-    }
-    
-    .school-logo {
-        height: 50px;
-    }
-    
-    .school-name {
-        font-size: 1rem;
-        white-space: normal;
-        line-height: 1.3;
-        text-align: center;
-    }
-    
-    .school-logo-wrapper {
-        gap: var(--space-sm);
-        justify-content: center;
-        flex-wrap: wrap;
+        padding: 0 var(--space-xl);
     }
     
     .app-wrapper {
-        padding: var(--space-sm);
-        align-items: flex-start;
-        padding-top: calc(90px + var(--space-lg));
-        width: 100%;
-        box-sizing: border-box;
+        padding: var(--space-xl) var(--space-xl);
+        padding-top: calc(110px + var(--space-xl));
     }
     
-    .header {
-        margin-bottom: var(--space-lg);
+    .header-container {
+        padding: calc(var(--space-xl) * 1.5) calc(var(--space-xl) * 2);
     }
     
     .title {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
     }
     
-    .subtitle {
-        font-size: 0.8125rem;
+    .title-icon-left,
+    .title-icon-right {
+        font-size: 2.75rem;
     }
     
     .input-section,
     .results-section,
     .recommendations-section {
-        padding: var(--space-md);
-        width: 100%;
-    }
-    
-    .container {
-        padding: 0 var(--space-xs);
-    }
-    
-    .label-primary {
-        font-size: 0.9375rem;
-    }
-    
-    .label-primary::before {
-        height: 16px;
-    }
-    
-    .form-input {
-        padding: 0.875rem 1rem;
-        font-size: 1rem;
-    }
-    
-    .result-value {
-        font-size: 1.75rem;
-    }
-    
-    .result-value.highlight-value {
-        font-size: 2rem;
+        padding: calc(var(--space-xl) * 1.75) 5rem;
     }
     
     .results-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-md);
+        gap: calc(var(--space-xl) * 1.25);
     }
     
-    .result-card {
-        padding: var(--space-md);
-    }
-    
-    /* Ensure both cards are visible on mobile */
     .result-card.highlight,
     .result-card.highlight-secondary,
     .result-card.risk-card {
-        display: flex !important;
-        flex-direction: column;
-        justify-content: center;
-        min-height: auto;
+        min-height: 320px;
     }
     
-    .result-card-icon {
-        font-size: 2rem;
+    .result-value {
+        font-size: 2.75rem;
     }
     
-    .result-label {
-        font-size: 0.875rem;
+    .result-value.highlight-value {
+        font-size: 3rem;
     }
     
-    .result-label-secondary {
-        font-size: 0.75rem;
-    }
-    
-    .recommendations-section {
-        padding: var(--space-lg);
-        margin-top: var(--space-lg);
-        margin-bottom: var(--space-lg);
-    }
-    
-    .recommendations-header {
-        margin-bottom: var(--space-lg);
-        padding: 0;
-    }
-    
-    .recommendations-icon {
-        font-size: 2.5rem;
-        margin: 0 auto var(--space-xs) auto;
+    .result-value.highlight-value-secondary {
+        font-size: 3rem;
     }
     
     .recommendations-title {
-        font-size: 1.1rem;
-        letter-spacing: 0.05em;
-        padding: 0 var(--space-xs);
-        line-height: 1.3;
-    }
-    
-    .recommendations-subtitle {
-        font-size: 0.75rem;
-        padding: 0 var(--space-xs);
-        line-height: 1.4;
-    }
-    
-    .recommendations-footer {
-        font-size: 0.75rem;
-        padding: var(--space-sm);
-        margin-top: var(--space-md);
-    }
-    
-    .result-value-wrapper {
-        padding: var(--space-sm);
-        margin: var(--space-sm) 0;
+        font-size: 1.75rem;
     }
     
     .recommendations-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-md);
+        gap: calc(var(--space-xl) * 1.25);
     }
     
     .recommendation-category-card {
-        padding: var(--space-md);
+        padding: calc(var(--space-xl) * 1.25);
     }
     
     .category-title {
-        font-size: 1.1rem;
-    }
-    
-    .recommendation-item {
-        font-size: 0.875rem;
-        padding: var(--space-xs) var(--space-sm);
-        padding-left: calc(var(--space-sm) + 1.5rem);
-        line-height: 1.6;
-    }
-    
-    .recommendation-item::before {
-        left: var(--space-xs);
-        width: 1.25rem;
-        height: 1.25rem;
-        min-width: 1.25rem;
-        font-size: 0.875rem;
-    }
-    
-    .category-header {
-        flex-wrap: wrap;
-        gap: var(--space-xs);
-    }
-    
-    .category-icon {
         font-size: 1.5rem;
     }
     
-    .risk-badge {
-        padding: 0.625rem 1.25rem;
-        font-size: 0.875rem;
+    .recommendation-item {
+        font-size: 1.0625rem;
+        padding: var(--space-lg) calc(var(--space-xl) * 1.25);
+        padding-left: calc(var(--space-xl) * 1.25 + 1.5rem);
+    }
+}
+
+/* Mobile Optimizations - Additional enhancements for all mobile sizes */
+@media (max-width: 767px) {
+    /* Ensure touch-friendly targets (minimum 44x44px) */
+    .predict-button,
+    .reset-button,
+    .export-button {
+        min-height: 44px;
+        min-width: 44px;
     }
     
-    .risk-icon {
-        font-size: 1rem;
+    /* Prevent horizontal scrolling */
+    * {
+        max-width: 100%;
     }
     
-    .risk-tooltip-text {
-        font-size: 0.8125rem;
-        padding: var(--space-xs) var(--space-sm);
-        max-width: 250px;
+    img {
+        max-width: 100%;
+        height: auto;
     }
     
+    /* Optimize form inputs for mobile */
+    .form-input {
+        -webkit-appearance: none;
+        appearance: none;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Improve button spacing on mobile */
     .export-buttons-wrapper {
         flex-direction: column;
         gap: var(--space-sm);
@@ -2440,8 +2639,34 @@ select.form-input:required:invalid:hover {
     
     .export-button {
         width: 100%;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.875rem;
+    }
+    
+    /* Ensure text is readable */
+    .recommendations-text {
+        font-size: 0.9375rem;
+        line-height: 1.7;
+    }
+    
+    /* Optimize card layouts */
+    .result-card {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Better spacing for recommendations */
+    .recommendation-item {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Ensure recommendations grid is single column on mobile */
+    .recommendations-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Ensure results grid is single column on mobile */
+    .results-grid {
+        grid-template-columns: 1fr !important;
     }
 }
 
@@ -2449,6 +2674,173 @@ select.form-input:required:invalid:hover {
 *:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+}
+
+/* Additional Responsive Enhancements */
+
+/* Prevent horizontal overflow on all devices */
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Ensure all containers respect viewport width */
+.container,
+.app-wrapper,
+.input-section,
+.results-section,
+.recommendations-section {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Responsive images */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Responsive tables (if any are added in future) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+    display: block;
+}
+
+/* Landscape orientation optimizations for mobile */
+@media (max-width: 767px) and (orientation: landscape) {
+    .app-wrapper {
+        padding-top: calc(80px + var(--space-sm));
+    }
+    
+    .header-container {
+        padding: var(--space-md) var(--space-lg);
+    }
+    
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .input-section,
+    .results-section,
+    .recommendations-section {
+        padding: var(--space-md);
+    }
+}
+
+/* High DPI displays optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .school-logo {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Print styles for better printing experience */
+@media print {
+    .top-navbar {
+        position: static;
+        box-shadow: none;
+    }
+    
+    .app-wrapper {
+        padding: 0;
+        padding-top: 0;
+    }
+    
+    .predict-button,
+    .reset-button,
+    .export-button {
+        display: none;
+    }
+    
+    .input-section,
+    .results-section,
+    .recommendations-section {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+    }
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Dark mode support (optional, for future enhancement) */
+@media (prefers-color-scheme: dark) {
+    /* Can be implemented if dark mode is desired */
+    /* Currently maintaining light theme as per design */
+}
+
+/* Ensure proper text rendering on all devices */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Improve form input rendering on mobile */
+input[type="number"],
+input[type="text"],
+select {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
+}
+
+/* Remove number input spinners on webkit browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ensure select dropdowns are styled consistently */
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230891b2' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+    padding-right: 2.5rem;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch target sizes */
+    .form-input,
+    .predict-button,
+    .reset-button,
+    .export-button {
+        min-height: 44px;
+    }
+    
+    /* Remove hover effects on touch devices */
+    .form-group:hover,
+    .result-card:hover,
+    .recommendation-category-card:hover,
+    .recommendation-item:hover {
+        transform: none;
+    }
+    
+    /* Keep focus states for keyboard navigation */
+    .form-input:focus,
+    .predict-button:focus,
+    .reset-button:focus,
+    .export-button:focus {
+        transform: none;
+        box-shadow: 0 0 0 4px rgba(8, 145, 178, 0.15);
+    }
 }
 
 
