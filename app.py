@@ -42,15 +42,12 @@ def get_farming_technique_name(technique_code):
     }
     return technique_map.get(technique_code, "Unknown")
 
-def get_ai_recommendations(salinity, temperature, storms, severe_events, farming_technique, typhoon, flood, predicted_production):
+def get_ai_recommendations(salinity, farming_technique, typhoon, flood, predicted_production):
     """
     Get AI-generated recommendations for oyster farming based on input parameters
     
     Args:
         salinity (float): Salinity level in ppt
-        temperature (float): Water temperature in °C
-        storms (int): Number of storm occurrences
-        severe_events (int): Number of severe weather events
         farming_technique (int): 1=Raft, 2=Stake, 3=Both
         typhoon (int): Number of typhoon events during the production period
         flood (int): Number of flood events during the production period
@@ -62,17 +59,12 @@ def get_ai_recommendations(salinity, temperature, storms, severe_events, farming
     technique_name = get_farming_technique_name(farming_technique)
     typhoon_text = f"{typhoon} event(s)" if typhoon == 1 else f"{typhoon} events"
     flood_text = f"{flood} event(s)" if flood == 1 else f"{flood} events"
-    storms_text = f"{storms} occurrence(s)" if storms == 1 else f"{storms} occurrences"
-    severe_text = f"{severe_events} event(s)" if severe_events == 1 else f"{severe_events} events"
     
     prompt = f"""You are an expert aquaculture consultant specializing in oyster farming. Generate AI-driven recommendations that are fully aligned with the predicted oyster production of {predicted_production:.2f} metric tons and the specific farming technique ({technique_name}) being used.
 
 Input data:
 - Predicted production: {predicted_production:.2f} metric tons
 - Salinity: {salinity} ppt
-- Temperature: {temperature} °C
-- Storms: {storms_text}
-- Severe Events: {severe_text}
 - Farming Technique: {technique_name}
 - Typhoons: {typhoon_text}
 - Floods: {flood_text}
@@ -82,7 +74,7 @@ CRITICAL REQUIREMENTS:
 2. All suggestions must be specific to the {technique_name} farming technique
 3. Provide actionable guidance to optimize production, improve efficiency, and maintain sustainability
 4. Emphasize practical strategies that maximize yield based on the predicted results
-5. Consider the local environmental conditions (salinity: {salinity} ppt, temperature: {temperature}°C, weather events)
+5. Consider the local environmental conditions (salinity: {salinity} ppt, weather events)
 6. Incorporate best aquaculture practices relevant to the specific conditions
 7. Recommendations should help achieve or exceed the predicted {predicted_production:.2f} metric tons production
 8. Start directly with category headers - NO introductory sentences, NO meta-commentary, NO explanations
@@ -98,11 +90,11 @@ Output format (provide specific, actionable recommendations):
 • [Strategy to maintain ideal salinity conditions]
 
 **Weather & Disaster Preparedness**
-• [Action based on {storms_text} storms, {typhoon_text} typhoons, {flood_text} floods]
+• [Action based on {typhoon_text} typhoons, {flood_text} floods]
 • [Preparedness strategy for the specific weather conditions]
 
 **Environmental Monitoring**
-• [Monitoring action for {temperature}°C temperature conditions]
+• [Monitoring action for optimal production conditions]
 • [Tracking strategy for production optimization]
 
 **Production Timing**
@@ -220,9 +212,6 @@ def predict():
     API endpoint to predict oyster production and get AI recommendations
     Expects JSON: {
         "salinity": 15.02,
-        "temperature": 25.5,
-        "storms": 0,
-        "severe_events": 0,
         "farming_technique": 1,
         "typhoon": 0,
         "flood": 0
@@ -236,15 +225,11 @@ def predict():
             return jsonify({"error": "No data provided"}), 400
         
         salinity = data.get('salinity')
-        temperature = data.get('temperature')
-        storms = data.get('storms')
-        severe_events = data.get('severe_events')
         farming_technique = data.get('farming_technique')
         typhoon = data.get('typhoon')
         flood = data.get('flood')
         
-        if (salinity is None or temperature is None or storms is None or 
-            severe_events is None or farming_technique is None or 
+        if (salinity is None or farming_technique is None or 
             typhoon is None or flood is None):
             return jsonify({"error": "Missing required fields"}), 400
         
@@ -256,12 +241,9 @@ def predict():
             int(flood)
         )
         
-        # Get AI recommendations (uses all fields for context)
+        # Get AI recommendations
         recommendations = get_ai_recommendations(
             float(salinity),
-            float(temperature),
-            int(storms),
-            int(severe_events),
             int(farming_technique),
             int(typhoon),
             int(flood),

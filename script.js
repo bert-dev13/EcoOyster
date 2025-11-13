@@ -183,9 +183,6 @@ function displayResults(production) {
 async function fetchRecommendations(production) {
     // Get form values for recommendations
     const salinity = parseFloat(document.getElementById('salinity').value);
-    const temperature = parseFloat(document.getElementById('temperature').value);
-    const storms = parseInt(document.getElementById('storms').value) || 0;
-    const severeEvents = parseInt(document.getElementById('severeEvents').value) || 0;
     const farmingTechnique = parseInt(document.getElementById('farmingTechnique').value);
     const typhoon = parseInt(document.getElementById('typhoon').value) || 0;
     const flood = parseInt(document.getElementById('flood').value) || 0;
@@ -204,9 +201,6 @@ async function fetchRecommendations(production) {
             },
             body: JSON.stringify({
                 salinity: salinity,
-                temperature: temperature,
-                storms: storms,
-                severe_events: severeEvents,
                 farming_technique: farmingTechnique,
                 typhoon: typhoon,
                 flood: flood
@@ -483,9 +477,6 @@ function getFormData() {
     const farmingTechnique = parseInt(document.getElementById('farmingTechnique').value);
     return {
         salinity: document.getElementById('salinity').value,
-        temperature: document.getElementById('temperature').value,
-        storms: document.getElementById('storms').value,
-        severeEvents: document.getElementById('severeEvents').value,
         farmingTechnique: farmingTechnique,
         farmingTechniqueName: getFarmingTechniqueName(farmingTechnique),
         typhoon: document.getElementById('typhoon').value,
@@ -708,24 +699,6 @@ function downloadPDF() {
         doc.setFont('helvetica', 'normal');
         doc.text(`${formData.salinity} ppt`, paramLeftCol + 50, paramY);
         
-        paramY += paramLineHeight;
-        doc.setFont('helvetica', 'bold');
-        doc.text('Temperature:', paramLeftCol, paramY);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`${formData.temperature}°C`, paramLeftCol + 50, paramY);
-        
-        paramY += paramLineHeight;
-        doc.setFont('helvetica', 'bold');
-        doc.text('Storms:', paramLeftCol, paramY);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`${formData.storms}`, paramLeftCol + 50, paramY);
-        
-        paramY += paramLineHeight;
-        doc.setFont('helvetica', 'bold');
-        doc.text('Severe Events:', paramLeftCol, paramY);
-        doc.setFont('helvetica', 'normal');
-        doc.text(`${formData.severeEvents}`, paramLeftCol + 50, paramY);
-        
         // Right column
         paramY = paramStartY;
         doc.setFont('helvetica', 'bold');
@@ -854,9 +827,6 @@ Farming Technique: ${formData.farmingTechniqueName}
 
 Input Parameters:
 - Salinity: ${formData.salinity} ppt
-- Temperature: ${formData.temperature}°C
-- Number of Storms: ${formData.storms}
-- Number of Severe Events: ${formData.severeEvents}
 - Number of Typhoons: ${formData.typhoon}
 - Number of Floods: ${formData.flood}
 - Farming Technique: ${formData.farmingTechniqueName}
@@ -917,17 +887,11 @@ function resetResults() {
  */
 function validateForm() {
     const salinity = document.getElementById('salinity').value;
-    const temperature = document.getElementById('temperature').value;
-    const storms = document.getElementById('storms').value;
-    const severeEvents = document.getElementById('severeEvents').value;
     const farmingTechnique = document.getElementById('farmingTechnique').value;
     const typhoon = document.getElementById('typhoon').value;
     const flood = document.getElementById('flood').value;
     
     return isValidNumber(salinity) && 
-           isValidNumber(temperature) &&
-           isValidNumber(storms) &&
-           isValidNumber(severeEvents) &&
            farmingTechnique !== '' &&
            (parseInt(farmingTechnique) >= 1 && parseInt(farmingTechnique) <= 3) &&
            isValidNumber(typhoon) &&
@@ -948,7 +912,7 @@ function handleInputValidation(event) {
         return;
     }
     
-    if (id === 'salinity' || id === 'temperature') {
+    if (id === 'salinity') {
         if (isValidNumber(value)) {
             input.classList.add('valid');
             input.classList.remove('invalid');
@@ -964,7 +928,7 @@ function handleInputValidation(event) {
             input.classList.add('invalid');
             input.classList.remove('valid');
         }
-    } else if (id === 'typhoon' || id === 'flood' || id === 'storms' || id === 'severeEvents') {
+    } else if (id === 'typhoon' || id === 'flood') {
         if (isValidNumber(value)) {
             input.classList.add('valid');
             input.classList.remove('invalid');
@@ -990,9 +954,6 @@ async function handleFormSubmit(event) {
     if (!validateForm()) {
         alert('Please enter valid values for all fields:\n\n' +
               '- Salinity: A positive number (e.g., 15.02)\n' +
-              '- Temperature: A positive number (e.g., 25.5)\n' +
-              '- Number of Storms: A positive number (e.g., 0, 1, 2)\n' +
-              '- Number of Severe Events: A positive number (e.g., 0, 1, 2)\n' +
               '- Number of Typhoons: A positive number (e.g., 0, 1, 2)\n' +
               '- Number of Floods: A positive number (e.g., 0, 1, 2)\n' +
               '- Farming Technique: Select an option (1=Raft, 2=Stake, 3=Both)\n\n' +
