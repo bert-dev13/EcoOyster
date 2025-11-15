@@ -1,19 +1,69 @@
 """
-Flask backend for Oyster Production Prediction System
-Handles prediction calculations and Together AI API integration for farming recommendations
+================================================================================
+EcoOyster - Oyster Production Prediction System
+Backend API Server
+================================================================================
+
+This Flask application provides the backend API for the EcoOyster system.
+It handles prediction calculations and AI-powered recommendations for oyster
+farming using Together AI's language model.
+
+Author: EcoOyster Development Team
+Version: 1.0.0
+================================================================================
 """
 
+# ============================================================================
+# IMPORTS AND DEPENDENCIES
+# ============================================================================
+
+import os
+import re
+import warnings
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from together import Together
-import os
+# Lazy import Together to avoid slow startup
+# from together import Together
 
+# ============================================================================
+# CONFIGURATION AND INITIALIZATION
+# ============================================================================
+
+# Suppress Flask development server warnings
+warnings.filterwarnings('ignore', message='.*development server.*')
+warnings.filterwarnings('ignore', message='.*This is a development server.*')
+warnings.filterwarnings('ignore', category=UserWarning, module='werkzeug')
+
+# Flask application initialization
 app = Flask(__name__, static_folder='.', static_url_path='')
-CORS(app)  # Enable CORS for frontend requests
+CORS(app)  # Enable Cross-Origin Resource Sharing
 
-# Initialize Together AI client
-TOGETHER_API_KEY = "tgp_v1_rQ3i3iNCz3UaTBeVo_iBAvfB_OVdSQ1Q8kOpt6izrf8"
-client = Together(api_key=TOGETHER_API_KEY)
+# Together AI API configuration
+TOGETHER_API_KEY = os.getenv(
+    'TOGETHER_API_KEY', 
+    'tgp_v1_rQ3i3iNCz3UaTBeVo_iBAvfB_OVdSQ1Q8kOpt6izrf8'
+)
+# Lazy initialization - client will be created when first needed
+_client = None
+
+def get_client():
+    """Get or create the Together AI client (lazy initialization)."""
+    global _client
+    if _client is None:
+        # Lazy import to avoid slow startup
+        from together import Together
+        _client = Together(api_key=TOGETHER_API_KEY)
+    return _client
+
+# AI Model configuration
+AI_MODEL = "meta-llama/Meta-Llama-3-8B-Instruct-Lite"
+AI_TEMPERATURE = 0.3
+AI_MAX_TOKENS_RECOMMENDATIONS = 500
+AI_MAX_TOKENS_DETAILED = 800
+
+# ============================================================================
+# HELPER FUNCTIONS - Production Calculation
+# ============================================================================
 
 def calculate_oyster_production(salinity, farming_technique, typhoon, flood):
     """
@@ -34,7 +84,15 @@ def calculate_oyster_production(salinity, farming_technique, typhoon, flood):
     return max(0, production)
 
 def get_farming_technique_name(technique_code):
-    """Convert farming technique code to name"""
+    """
+    Convert farming technique code to name.
+    
+    Args:
+        technique_code (int): Technique code (1, 2, or 3)
+        
+    Returns:
+        str: Technique name
+    """
     technique_map = {
         1: "Raft method",
         2: "Stake method",
@@ -42,9 +100,78 @@ def get_farming_technique_name(technique_code):
     }
     return technique_map.get(technique_code, "Unknown")
 
+# ============================================================================
+# HELPER FUNCTIONS - AI Response Processing
+# ============================================================================
+
+def parse_ai_recommendations(raw_response):
+    """
+    Parse and extract AI recommendations from raw response.
+    
+    Handles multiple formats:
+    - Multi-line format with category headers (**Category**)
+    - Markdown headers (# Category)
+    - Extracts only the structured recommendations (category headers and bullet points)
+    
+    Args:
+        raw_response (str): Raw text response from AI
+        
+    Returns:
+        str: Clean, formatted recommendations text
+    """
+    lines = raw_response.split('\n')
+    recommendations = []
+    start_found = False
+    
+    for line in lines:
+        line_stripped = line.strip()
+        
+        # Check if this is a category header
+        if re.match(r'^\*\*.*\*\*$', line_stripped) or re.match(r'^#+\s+', line_stripped):
+            start_found = True
+            recommendations.append(line)
+            continue
+        
+        # Once we've found the start, include category headers and bullet points
+        if start_found:
+            # Include empty lines for formatting
+            if not line_stripped:
+                recommendations.append(line)
+            # Include bullet points (•, -, or *)
+            elif re.match(r'^[•\-\*]\s+', line_stripped):
+                recommendations.append(line)
+            # Include category headers if they appear again
+            elif re.match(r'^\*\*.*\*\*$', line_stripped) or re.match(r'^#+\s+', line_stripped):
+                recommendations.append(line)
+    
+    # If we didn't find a start, try to extract from anywhere in the text
+    if not start_found:
+        category_pattern = r'\*\*[^*]+\*\*|#+\s+[^\n]+'
+        matches = list(re.finditer(category_pattern, raw_response))
+        if matches:
+            # Start from the first category header
+            start_pos = matches[0].start()
+            return raw_response[start_pos:].strip()
+        # Final fallback: return raw response
+        return raw_response.strip()
+    
+    return '\n'.join(recommendations).strip()
+
+# ============================================================================
+# AI INTEGRATION FUNCTIONS
+# ============================================================================
+
 def get_ai_recommendations(salinity, farming_technique, typhoon, flood, predicted_production):
     """
-    Get AI-generated recommendations for oyster farming based on input parameters
+    Get AI-generated recommendations for oyster farming based on input parameters.
+    
+    Uses Together AI to generate comprehensive recommendations covering:
+    - Farming technique optimization
+    - Salinity management
+    - Weather & disaster preparedness
+    - Environmental monitoring
+    - Production timing
+    - Best practices & sustainability
     
     Args:
         salinity (float): Salinity level in ppt
@@ -52,9 +179,9 @@ def get_ai_recommendations(salinity, farming_technique, typhoon, flood, predicte
         typhoon (int): Number of typhoon events during the production period
         flood (int): Number of flood events during the production period
         predicted_production (float): Predicted oyster production in metric tons
-    
+        
     Returns:
-        str: AI-generated recommendations text
+        str: Formatted recommendations text
     """
     technique_name = get_farming_technique_name(farming_technique)
     typhoon_text = f"{typhoon} event(s)" if typhoon == 1 else f"{typhoon} events"
@@ -108,117 +235,59 @@ Output format (provide specific, actionable recommendations):
 Begin immediately with "**Farming Technique Optimization**" - no other text before it. All recommendations must be practical, actionable, and directly relevant to achieving the predicted production."""
 
     try:
+        client = get_client()
         response = client.chat.completions.create(
-            model="deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free",
+            model=AI_MODEL,
             messages=[
+                {
+                    "role": "system",
+                    "content": "You are a concise expert. Output ONLY the final recommendations. No explanations, no thinking process, no meta-commentary."
+                },
                 {"role": "user", "content": prompt}
-            ]
+            ],
+            temperature=AI_TEMPERATURE,
+            max_tokens=AI_MAX_TOKENS_RECOMMENDATIONS
         )
         
-        raw_response = response.choices[0].message.content
+        raw_response = response.choices[0].message.content.strip()
+        return parse_ai_recommendations(raw_response)
         
-        # Clean up meta-commentary that might slip through
-        import re
-        lines = raw_response.split('\n')
-        cleaned_lines = []
-        
-        # Find the start of actual recommendations (first category header)
-        start_found = False
-        for i, line in enumerate(lines):
-            line_stripped = line.strip()
-            if not line_stripped:
-                if start_found:
-                    cleaned_lines.append(line)
-                continue
-            
-            line_lower = line_stripped.lower()
-            
-            # Check if this is the start of recommendations (category header)
-            if re.match(r'^\*\*.*\*\*$', line_stripped) or re.match(r'^#+\s+', line_stripped):
-                start_found = True
-                cleaned_lines.append(line)
-                continue
-            
-            # Skip everything before the first category header
-            if not start_found:
-                continue
-            
-            # Meta-commentary patterns to remove
-            meta_phrases = [
-                'okay', 'so i need', 'let me start', 'let me', 'i need to', 'i should',
-                'first,', 'first i', 'i\'ll', 'i will', 'i\'m going to', 'i am going to',
-                'let me think', 'i think', 'i believe', 'i understand', 'they have',
-                'the inputs include', 'the data shows', 'based on the', 'looking at',
-                'considering', 'given that', 'since', 'because', 'as you can see',
-                'it seems', 'it appears', 'it looks like', 'this means', 'this indicates',
-                'thought process', 'reasoning', 'explanation', 'analysis', 'let me explain',
-                'i should think', 'i should consider', 'i should focus', 'i should provide',
-                'each point should', 'each recommendation', 'keep the language',
-                'make it actionable', 'start with a verb', 'without any', 'just the',
-                'to ensure', 'directly tied', 'targeting the', 'go through',
-                'avoid any markdown', 'and i need', 'and let me', 'finally,',
-                'in summary', 'to summarize', 'in conclusion', 'overall',
-                'the user', 'the system', 'you have', 'you should know',
-                'note that', 'remember that', 'keep in mind', 'it\'s important',
-                'i should avoid', 'i should keep', 'i should make', 'i should start'
-            ]
-            
-            # Check if line contains meta-commentary
-            is_meta = False
-            for phrase in meta_phrases:
-                if phrase in line_lower:
-                    is_meta = True
-                    break
-            
-            # Check for patterns like "Okay, so..." or "Let me start by..."
-            if re.match(r'^(okay|ok|well|so|now|first|let me|i need|i should|i\'ll|i will)', line_lower):
-                is_meta = True
-            
-            # Check for sentences that describe what the AI is doing
-            if re.search(r'(i\'m|i am|i\'ll|i will|let me|i need|i should)\s+(going to|trying to|planning to|thinking|considering|providing|giving|making|ensuring|checking|reviewing|listing|organizing)', line_lower):
-                is_meta = True
-            
-            # Check for explanations of input values
-            if re.search(r'(they have|the inputs|the data|the values|the system|the user)', line_lower):
-                is_meta = True
-            
-            # Check for meta-instructions
-            if re.search(r'(should start|should be|should include|should avoid|should keep|should make)', line_lower):
-                is_meta = True
-            
-            # Keep only non-meta lines
-            if not is_meta:
-                cleaned_lines.append(line)
-        
-        cleaned_response = '\n'.join(cleaned_lines).strip()
-        
-        # If we didn't find a start, try to extract just the formatted recommendations
-        if not start_found and cleaned_response:
-            # Look for any category headers in the text
-            category_pattern = r'\*\*[^*]+\*\*|#+\s+[^\n]+'
-            matches = list(re.finditer(category_pattern, cleaned_response))
-            if matches:
-                # Start from the first category header
-                start_pos = matches[0].start()
-                cleaned_response = cleaned_response[start_pos:].strip()
-        
-        return cleaned_response
     except Exception as e:
         return f"Error generating recommendations: {str(e)}"
+
+# ============================================================================
+# API ROUTES
+# ============================================================================
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
     """
-    API endpoint to predict oyster production and get AI recommendations
-    Expects JSON: {
-        "salinity": 15.02,
-        "farming_technique": 1,
-        "typhoon": 0,
-        "flood": 0
-    }
+    API Endpoint: Predict oyster production and get AI recommendations.
+    
+    Request Body (JSON):
+        {
+            "salinity": 15.02,
+            "farming_technique": 1,
+            "typhoon": 0,
+            "flood": 0
+        }
+    
+    Response (JSON):
+        {
+            "success": true,
+            "predicted_production": 12.34,
+            "recommendations": "..."
+        }
+    
+    Status Codes:
+        200: Success
+        400: Bad Request (missing or invalid parameters)
+        500: Internal Server Error
+    
     Note: All numeric fields represent counts or measurements during the production period.
     """
     try:
+        # Validate request data
         data = request.get_json()
         
         if not data:
@@ -250,6 +319,7 @@ def predict():
             predicted_production
         )
         
+        # Return success response
         return jsonify({
             "success": True,
             "predicted_production": predicted_production,
@@ -259,21 +329,74 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
+    """
+    API Endpoint: Health check for monitoring and load balancers.
+    
+    Returns:
+        JSON: {"status": "healthy"}
+        Status Code: 200
+    """
     return jsonify({"status": "healthy"}), 200
+
 
 @app.route('/')
 def index():
-    """Serve the main HTML page"""
+    """
+    Serve the main HTML page.
+    
+    Returns:
+        HTML: index.html file
+    """
     return send_from_directory('.', 'index.html')
+
 
 @app.route('/<path:path>')
 def serve_static(path):
-    """Serve static files (CSS, JS, images, etc.)"""
+    """
+    Serve static files (CSS, JS, images, etc.).
+    
+    Args:
+        path (str): Path to the static file
+        
+    Returns:
+        File: Requested static file
+    """
     return send_from_directory('.', path)
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+# ============================================================================
+# APPLICATION ENTRY POINT
+# ============================================================================
 
+if __name__ == '__main__':
+    import logging
+    import sys
+    
+    # Suppress Flask development server warning
+    class NoDevelopmentServerWarning(logging.Filter):
+        def filter(self, record):
+            message = record.getMessage()
+            return 'development server' not in message.lower() and 'This is a development server' not in message
+    
+    # Configure logging - allow INFO level to show server URL and requests
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.INFO)
+    # Remove default handlers and add filtered handler
+    log.handlers.clear()
+    handler = logging.StreamHandler(sys.stdout)
+    handler.addFilter(NoDevelopmentServerWarning())
+    log.addHandler(handler)
+    
+    # Print server startup message
+    print("\n" + "="*60)
+    print("EcoOyster Server Starting...")
+    print("="*60)
+    print("Server running at: http://127.0.0.1:5000")
+    print("Press CTRL+C to quit")
+    print("="*60 + "\n")
+    
+    # Run Flask development server
+    # Use explicit host and disable reloader for faster startup on Windows
+    app.run(debug=True, host='127.0.0.1', port=5000, use_reloader=False)

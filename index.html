@@ -1,18 +1,42 @@
+<!--
+================================================================================
+EcoOyster - Oyster Production Prediction System
+Frontend HTML Structure
+================================================================================
+
+This HTML file provides the frontend interface for the EcoOyster system.
+It includes the main structure, form inputs, results display, and AI
+recommendations sections.
+
+Author: EcoOyster Development Team
+Version: 1.0.0
+================================================================================
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ====================================================================
+         META TAGS AND DOCUMENT CONFIGURATION
+         ==================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="description" content="Oyster Production Prediction System - Predict oyster production based on environmental and farming factors">
     <meta name="theme-color" content="#0891b2">
     <title>Oyster Production Prediction System</title>
+    
+    <!-- ====================================================================
+         EXTERNAL RESOURCES
+         ==================================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Top Navigation Bar -->
+    <!-- ====================================================================
+         TOP NAVIGATION BAR
+         ==================================================================== -->
     <nav class="top-navbar">
         <div class="top-navbar-container">
             <div class="school-logo-wrapper">
@@ -22,9 +46,14 @@
         </div>
     </nav>
 
+    <!-- ====================================================================
+         MAIN APPLICATION WRAPPER
+         ==================================================================== -->
     <div class="app-wrapper">
         <div class="container">
-            <!-- Header Section -->
+            <!-- ============================================================
+                 HEADER SECTION
+                 ============================================================ -->
             <header class="header">
                 <div class="header-container">
                     <div class="title-wrapper">
@@ -38,11 +67,16 @@
                 </div>
             </header>
 
-            <!-- Main Content -->
+            <!-- ============================================================
+                 MAIN CONTENT AREA
+                 ============================================================ -->
             <main class="main-content">
-                <!-- Input Section -->
+                <!-- ========================================================
+                     INPUT SECTION - Form for user inputs
+                     ======================================================== -->
                 <section class="input-section">
                     <form id="predictionForm" class="prediction-form">
+                        <!-- Salinity Input -->
                         <div class="form-group">
                             <label for="salinity" class="form-label">
                                 <span class="label-primary">Salinity (ppt)</span>
@@ -61,6 +95,7 @@
                             >
                         </div>
 
+                        <!-- Typhoon Input -->
                         <div class="form-group">
                             <label for="typhoon" class="form-label">
                                 <span class="label-primary">Number of Typhoons</span>
@@ -79,6 +114,7 @@
                             >
                         </div>
 
+                        <!-- Flood Input -->
                         <div class="form-group">
                             <label for="flood" class="form-label">
                                 <span class="label-primary">Number of Floods</span>
@@ -97,6 +133,7 @@
                             >
                         </div>
 
+                        <!-- Farming Technique Selection -->
                         <div class="form-group">
                             <label for="farmingTechnique" class="form-label">
                                 <span class="label-primary">Farming Technique</span>
@@ -116,6 +153,7 @@
                             </select>
                         </div>
 
+                        <!-- Submit Button -->
                         <button type="submit" class="predict-button" id="predictBtn">
                             <span>Compute Oyster Production</span>
                             <span class="button-tagalog">Kalkulahin ang Produksyon ng Talaba</span>
@@ -123,8 +161,11 @@
                     </form>
                 </section>
 
-                <!-- Results Section -->
+                <!-- ========================================================
+                     RESULTS SECTION - Display prediction results
+                     ======================================================== -->
                 <section class="results-section" id="resultsSection" style="display: none;">
+                    <!-- Results Header -->
                     <div class="results-header">
                         <div class="results-header-icon">📊</div>
                         <h2 class="results-title">Prediction Results</h2>
@@ -132,7 +173,9 @@
                         <div class="results-header-line"></div>
                     </div>
 
+                    <!-- Results Grid - Key Metrics -->
                     <div class="results-grid">
+                        <!-- Predicted Production Card -->
                         <div class="result-card highlight">
                             <div class="result-card-icon">🦪</div>
                             <div class="result-label">Predicted Oyster Production</div>
@@ -145,6 +188,8 @@
                             </div>
                             <div class="result-unit">metric tons / metriko tonelada</div>
                         </div>
+                        
+                        <!-- Farming Technique Card -->
                         <div class="result-card highlight-secondary">
                             <div class="result-card-icon">🌾</div>
                             <div class="result-label">Farming Technique</div>
@@ -168,6 +213,7 @@
                         </button>
                     </div>
                     
+                    <!-- Production Display Text -->
                     <div class="production-display" id="productionDisplay" style="display: none;">
                         <p class="production-text">
                             <strong>Predicted Oyster Production:</strong> 
@@ -175,25 +221,36 @@
                         </p>
                     </div>
 
-                    <!-- AI Recommendations Section -->
+                    <!-- ====================================================
+                         AI RECOMMENDATIONS SECTION
+                         ==================================================== -->
                     <div class="recommendations-section" id="recommendationsSection" style="display: none;">
+                        <!-- Recommendations Header -->
                         <div class="recommendations-header">
                             <div class="recommendations-icon">💡</div>
                             <h3 class="recommendations-title">AI-Powered Oyster Production Recommendations</h3>
                         </div>
+                        
+                        <!-- Recommendations Content -->
                         <div class="recommendations-content">
+                            <!-- Loading State -->
                             <div class="recommendations-loading" id="recommendationsLoading" style="display: none;">
                                 <div class="loading-spinner"></div>
                                 <p>Analyzing and generating recommendations...</p>
                                 <p class="loading-tagalog">Sinusuri at ginagawa ang mga rekomendasyon...</p>
                             </div>
+                            
+                            <!-- Recommendations Text Display -->
                             <div class="recommendations-text" id="recommendationsText"></div>
+                            
+                            <!-- Recommendations Footer -->
                             <div class="recommendations-footer" id="recommendationsFooter" style="display: none;">
                                 <p>🦪 These recommendations are AI-generated using DeepSeek analysis and may vary based on local conditions and environmental factors.</p>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Reset Button -->
                     <button type="button" class="reset-button" id="resetBtn">
                         <span class="reset-icon">🔄</span>
                         <span>Calculate New Prediction</span>
@@ -203,8 +260,14 @@
         </div>
     </div>
 
-    <!-- Load jsPDF library -->
+    <!-- ====================================================================
+         EXTERNAL SCRIPTS AND LIBRARIES
+         ==================================================================== -->
+    
+    <!-- jsPDF Library for PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- jsPDF Library Verification Script -->
     <script>
         // Verify jsPDF is loaded and log for debugging
         (function() {
@@ -228,7 +291,8 @@
             }
         })();
     </script>
+    
+    <!-- Main Application Script -->
     <script src="script.js"></script>
 </body>
 </html>
-

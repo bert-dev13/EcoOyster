@@ -1,11 +1,24 @@
 /**
- * Oyster Production Prediction System
- * Main JavaScript file for prediction calculations and UI interactions
+ * ============================================================================
+ * EcoOyster - Oyster Production Prediction System
+ * Frontend JavaScript - Main Application Logic
+ * ============================================================================
+ * 
+ * This JavaScript file handles all frontend functionality including:
+ * - Prediction calculations
+ * - API communication
+ * - UI interactions and updates
+ * - Form validation
+ * - PDF generation and clipboard operations
+ * 
+ * Author: EcoOyster Development Team
+ * Version: 1.0.0
+ * ============================================================================
  */
 
-// ============================================
-// Constants and Configuration
-// ============================================
+// ============================================================================
+// CONSTANTS AND CONFIGURATION
+// ============================================================================
 
 // Formula coefficients for oyster production prediction
 // Formula: Oyster Production = 0.268(Salinity) + 0.567(Farming Technique) + 0.436(Typhoon) + 0.223(Flood) - 4.595
@@ -32,9 +45,9 @@ const copyClipboardBtn = document.getElementById('copyClipboardBtn');
 // API Configuration
 const API_BASE_URL = '/api';
 
-// ============================================
-// Utility Functions
-// ============================================
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
 
 /**
  * Formats a number with decimal places
@@ -59,9 +72,9 @@ function isValidNumber(value) {
     return !isNaN(num) && num >= 0 && isFinite(num);
 }
 
-// ============================================
-// Core Calculation Functions
-// ============================================
+// ============================================================================
+// CORE CALCULATION FUNCTIONS
+// ============================================================================
 
 /**
  * Calculates predicted oyster production using the formula:
@@ -101,9 +114,9 @@ function calculateOysterProduction(salinity, farmingTechnique, typhoon, flood) {
     return Math.max(0, production);
 }
 
-// ============================================
-// UI Update Functions
-// ============================================
+// ============================================================================
+// UI UPDATE FUNCTIONS
+// ============================================================================
 
 /**
  * Gets the farming technique name from code
@@ -877,9 +890,9 @@ function resetResults() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ============================================
-// Input Validation and Handling
-// ============================================
+// ============================================================================
+// INPUT VALIDATION AND HANDLING
+// ============================================================================
 
 /**
  * Validates all form inputs
@@ -939,9 +952,9 @@ function handleInputValidation(event) {
     }
 }
 
-// ============================================
-// Event Handlers
-// ============================================
+// ============================================================================
+// EVENT HANDLERS
+// ============================================================================
 
 /**
  * Handles form submission and triggers prediction
@@ -996,9 +1009,9 @@ async function handleFormSubmit(event) {
     }
 }
 
-// ============================================
-// Event Listeners Setup
-// ============================================
+// ============================================================================
+// EVENT LISTENERS SETUP
+// ============================================================================
 
 /**
  * Initializes all event listeners
@@ -1027,9 +1040,9 @@ function initializeEventListeners() {
     });
 }
 
-// ============================================
-// Initialization
-// ============================================
+// ============================================================================
+// APPLICATION INITIALIZATION
+// ============================================================================
 
 /**
  * Initializes the application when DOM is loaded
@@ -1046,9 +1059,9 @@ function init() {
 // Start the application
 init();
 
-// ============================================
-// Export functions for testing (if needed)
-// ============================================
+// ============================================================================
+// MODULE EXPORTS (for testing if needed)
+// ============================================================================
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         calculateOysterProduction,
